@@ -24,7 +24,3 @@ export const createUser = async (user) => {
         return null;
     }
 };
-
-
-
-

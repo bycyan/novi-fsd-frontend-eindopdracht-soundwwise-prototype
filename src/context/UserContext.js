@@ -6,7 +6,7 @@ export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [userId, setUserId] = useState(null); // Add userId state
+    const [userId, setUserId] = useState(null);
 
     const handleLogin = (userData, userId) => {
         setUser(userData);
@@ -19,6 +19,7 @@ export const UserProvider = ({ children }) => {
                 const response = await axios.get(`/users/${userId}`);
                 setUser(response.data);
                 console.log('User data:', response.data);
+
             }
         } catch (error) {
             console.log('Error fetching user data:', error);
@@ -28,7 +29,7 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{ user, handleLogin }}>
             {children}
-            {user && <Profile fetchUser={fetchUser} />}
+            {user !== null && <Profile fetchUser={fetchUser} />}
         </UserContext.Provider>
     );
 };

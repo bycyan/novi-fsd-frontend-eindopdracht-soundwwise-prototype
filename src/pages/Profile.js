@@ -20,6 +20,7 @@ function Profile() {
                     };
                     const response = await axios.get(`${BASE_URL}/users/${userId}`, config);
                     setUserData(response.data); // Store the user data in state
+                    console.log(response.data);
                 }
             } catch (error) {
                 console.log('Error fetching user data:', error);
@@ -33,10 +34,13 @@ function Profile() {
         return <div>Loading...</div>;
     }
 
+    console.log("Rendering..")
+
     return (
         <div>
             <h1>Welcome, {userData && userData.firstName} {userData && userData.lastName}!</h1>
             {/* Display other user information as needed */}
+
         </div>
     );
 }
