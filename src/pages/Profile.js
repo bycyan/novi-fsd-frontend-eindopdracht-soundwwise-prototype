@@ -1,21 +1,20 @@
 import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
-import { fetchUser } from '../context/UserContext';
+import { getUserById} from "../services/api";
 
 function Profile() {
     const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
-        const userId = '1';
-        void fetchUser(userId, setUser);
+        const userId = setUser.userId;
+        void getUserById(userId, setUser);
     }, []);
 
     if (!user) {
         return <div>Loading...</div>;
     }
 
-    console.log('Rendering..');
-    console.log(user);
+    console.log(user.userId);
 
     return (
         <div>

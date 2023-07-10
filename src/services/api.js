@@ -24,3 +24,45 @@ export const createUser = async (user) => {
         return null;
     }
 };
+
+export const getAllUsers = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}/users`);
+        return response.data;
+    } catch (error) {
+        console.log('Error:', error);
+        return null;
+    }
+};
+
+export const getUserById = async (userId) => {
+    try {
+        if (userId) {
+            const response = await axios.get(`${BASE_URL}/users/${userId}`);
+            return response.data;
+        }
+    } catch (error) {
+        console.log('Error:', error);
+        return null;
+    }
+};
+
+
+
+export const updateUser = async (userId, updatedUser) => {
+    try {
+        const response = await axios.put(`${BASE_URL}/users/${userId}`, updatedUser);
+        return response.data;
+    } catch (error) {
+        console.log('Error:', error);
+        return null;
+    }
+};
+
+export const deleteUser = async (userId) => {
+    try {
+        await axios.delete(`${BASE_URL}/users/${userId}`);
+    } catch (error) {
+        console.log('Error:', error);
+    }
+};
