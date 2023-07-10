@@ -6,8 +6,8 @@ function Profile() {
     const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
-        const userId = '1'; // Replace '1' with the actual user ID
-        fetchUser(userId, setUser);
+        const userId = '1';
+        void fetchUser(userId, setUser);
     }, []);
 
     if (!user) {
@@ -15,12 +15,12 @@ function Profile() {
     }
 
     console.log('Rendering..');
-    console.log(user)
+    console.log(user);
 
     return (
         <div>
-            <h1>Welcome, {user.firstName} {user.lastName}!</h1>
-            {/* Display other user information as needed */}
+            <h1>profile</h1>
+            <p>{user.firstName} {user.lastName}</p>
         </div>
     );
 }
