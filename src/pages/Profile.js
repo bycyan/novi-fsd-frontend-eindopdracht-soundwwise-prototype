@@ -1,46 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
+import { fetchUser } from '../context/UserContext';
 
 function Profile() {
-    const { user } = useContext(UserContext);
-    const [userData, setUserData] = useState(null);
+    const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
-        const BASE_URL = 'http://localhost:8080';
-        const userId = '1';
-
-        const fetchUser = async () => {
-            try {
-                if (user && user.token) {
-                    const config = {
-                        headers: {
-                            Authorization: `Bearer ${user.token}`,
-                        },
-                    };
-                    const response = await axios.get(`${BASE_URL}/users/${userId}`, config);
-                    setUserData(response.data); // Store the user data in state
-                    console.log(response.data);
-                }
-            } catch (error) {
-                console.log('Error fetching user data:', error);
-            }
-        };
-
-        fetchUser();
-    }, [user]);
+        const userId = '1'; // Replace '1' with the actual user ID
+        fetchUser(userId, setUser);
+    }, []);
 
     if (!user) {
         return <div>Loading...</div>;
     }
 
-    console.log("Rendering..")
+    console.log('Rendering..');
+    console.log(user)
 
     return (
         <div>
-            <h1>Welcome, {userData && userData.firstName} {userData && userData.lastName}!</h1>
+            <h1>Welcome, {user.firstName} {user.lastName}!</h1>
             {/* Display other user information as needed */}
-
         </div>
     );
 }

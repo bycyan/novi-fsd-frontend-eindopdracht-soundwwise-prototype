@@ -24,3 +24,14 @@ export const createUser = async (user) => {
         return null;
     }
 };
+
+// export const fetchUser = async (userId, setUser) => {
+//     try {
+//         if (userId) {
+//             const response = await axios.get(`${BASE_URL}/users/${userId}`);
+//             setUser(response.data);
+//         }
+//     } catch (error) {
+//         console.log('Error fetching user data:', error);
+//     }
+// };

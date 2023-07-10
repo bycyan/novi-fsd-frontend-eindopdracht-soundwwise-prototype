@@ -1,8 +1,20 @@
 import React, { createContext, useState } from 'react';
 import axios from 'axios';
-import Profile from '../pages/Profile';
 
 export const UserContext = createContext(null);
+
+const BASE_URL = 'http://localhost:8080';
+
+export const fetchUser = async (userId, setUser) => {
+    try {
+        if (userId) {
+            const response = await axios.get(`${BASE_URL}/users/${userId}`);
+            setUser(response.data);
+        }
+    } catch (error) {
+        console.log('Error fetching user data:', error);
+    }
+};
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -13,23 +25,9 @@ export const UserProvider = ({ children }) => {
         setUserId(userId);
     };
 
-    const fetchUser = async () => {
-        try {
-            if (userId) {
-                const response = await axios.get(`/users/${userId}`);
-                setUser(response.data);
-                console.log('User data:', response.data);
-
-            }
-        } catch (error) {
-            console.log('Error fetching user data:', error);
-        }
-    };
-
     return (
-        <UserContext.Provider value={{ user, handleLogin }}>
+        <UserContext.Provider value={{ user, handleLogin, userId, setUser }}>
             {children}
-            {user !== null && <Profile fetchUser={fetchUser} />}
         </UserContext.Provider>
     );
 };
