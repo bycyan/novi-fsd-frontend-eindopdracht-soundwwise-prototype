@@ -1,11 +1,11 @@
 import React, { useContext, useState } from "react";
 import { createUser, loginUser } from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext";
+import { AuthContext } from "../../context/AuthContext";
 
 function AuthForm() {
     const navigate = useNavigate();
-    const { handleLogin } = useContext(UserContext);
+    const { handleLogin } = useContext(AuthContext);
 
     const [user, setUserCredentials] = useState({
         firstname: "",

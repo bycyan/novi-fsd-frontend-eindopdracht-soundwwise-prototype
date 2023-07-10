@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { UserContext } from '../context/UserContext';
+import { AuthContext } from '../context/AuthContext';
 import { getUserById} from "../services/api";
 
 function Profile() {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(AuthContext);
 
     useEffect(() => {
         const userId = setUser.userId;
@@ -15,6 +15,7 @@ function Profile() {
     }
 
     console.log(user.userId);
+    console.log(user)
 
     return (
         <div>
