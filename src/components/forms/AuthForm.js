@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { createUser, loginUser } from "../../services/UserService";
+import { createUser, loginUser } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 
