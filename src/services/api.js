@@ -8,7 +8,6 @@ export const loginUser = async (user) => {
         const authToken = response.data.token;
         localStorage.setItem("authToken", authToken);
         return response.data;
-
     } catch (error) {
         console.error("Error:", error);
         return null;
@@ -35,10 +34,15 @@ export const getAllUsers = async () => {
     }
 };
 
-export const getUserById = async (userId) => {
+export const getUserById = async (userId, token) => {
     try {
-        if (userId) {
-            const response = await axios.get(`${BASE_URL}/users/${userId}`);
+        if (userId && token) {
+            const response = await axios.get(`${BASE_URL}/users/${userId}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             return response.data;
         }
     } catch (error) {
@@ -46,6 +50,7 @@ export const getUserById = async (userId) => {
         return null;
     }
 };
+
 
 
 

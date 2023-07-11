@@ -2,16 +2,16 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import { UserProvider } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
     return (
-        <UserProvider>
+        <AuthProvider>
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/profile" element={<Profile />} />
             </Routes>
-        </UserProvider>
+        </AuthProvider>
     );
 }
 

@@ -3,24 +3,26 @@ import { AuthContext } from '../context/AuthContext';
 import { getUserById} from "../services/api";
 
 function Profile() {
-    const { user, setUser } = useContext(AuthContext);
+
+    const { finalUser, setUser } = useContext(AuthContext);
 
     useEffect(() => {
-        const userId = setUser.userId;
-        void getUserById(userId, setUser);
+        const userId = finalUser.userId;
+        const token = localStorage.getItem('authToken');
+
+        void getUserById(userId, token)
+            .then((response) => {
+                setUser(response);
+            })
+            .catch((error) => {
+                console.log('Error:', error);
+            });
     }, []);
-
-    if (!user) {
-        return <div>Loading...</div>;
-    }
-
-    console.log(user.userId);
-    console.log(user)
 
     return (
         <div>
             <h1>profile</h1>
-            <p>{user.firstName} {user.lastName}</p>
+            {/*<p>{user.firstName} {user.lastName}</p>*/}
         </div>
     );
 }
