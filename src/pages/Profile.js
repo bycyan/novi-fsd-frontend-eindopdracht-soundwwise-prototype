@@ -4,10 +4,10 @@ import { getUserById} from "../services/api";
 
 function Profile() {
 
-    const { finalUser, setUser } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     useEffect(() => {
-        const userId = finalUser.userId;
+        const userId = user.userId;
         const token = localStorage.getItem('authToken');
 
         void getUserById(userId, token)
@@ -22,7 +22,7 @@ function Profile() {
     return (
         <div>
             <h1>profile</h1>
-            {/*<p>{user.firstName} {user.lastName}</p>*/}
+            <p>{user.firstName} {user.lastName}</p>
         </div>
     );
 }

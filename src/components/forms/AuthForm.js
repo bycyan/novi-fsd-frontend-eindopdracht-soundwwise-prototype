@@ -89,7 +89,8 @@ function AuthForm() {
                 // ...
 
                 console.log('User logged in successfully!');
-                // navigate("/Profile");
+                console.log(response);
+                navigate("/Profile");
             } else {
                 // Handle failed login
                 // ...
