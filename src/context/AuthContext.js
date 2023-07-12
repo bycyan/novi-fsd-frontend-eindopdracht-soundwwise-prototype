@@ -1,5 +1,5 @@
 import React, {createContext, useEffect, useState} from 'react';
-import {getUserById, loginUser, validateToken} from "../services/api";
+import {getUserById, loginUser, updateUser} from "../services/api";
 import jwt_decode from 'jwt-decode';
 import {useLocation} from "react-router-dom";
 
@@ -112,17 +112,44 @@ export const AuthProvider = ({ children }) => {
         //todo redirect to login page
       }
 
+    // function update(JWT) {
+    //     updateUser(JWT)
+    //         .then((response) => {
+    //             if (response) {
+    //                 localStorage.setItem('authToken', JWT);
+    //             } else {
+    //                 console.log('Gebruiker is niet aangepast!');
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log('Error:', error);
+    //         });
+    // }
+
+    function update(userId, updatedUser) {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            return updateUser(userId, updatedUser, token);
+        } else {
+            throw new Error('Authentication token not found.');
+        }
+    }
+
+
+
+
     const contextData = {
         isAuth: isAuth.isAuth,
         user: isAuth.user,
         login: login,
         logout: logout,
+        update: update,
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, contextData }}>
-            {children}
-            {/*{isAuth.status === 'done' ? children : <p>Loading...</p>}*/}
+        <AuthContext.Provider value={{ user, login, logout, updateUser, contextData }}>
+            {/*{children}*/}
+            {isAuth.status === 'done' ? children : <p>Loading...</p>}
         </AuthContext.Provider>
     );
 };

@@ -62,7 +62,7 @@ export const getUserById = async (userId, token) => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            console.log("getUserById - response:", response);
+            console.log("getUserById - response:", response.data);
             return response.data;
         }
     } catch (error) {
@@ -74,22 +74,19 @@ export const getUserById = async (userId, token) => {
 
 export const updateUser = async (userId, updatedUser, token) => {
     try {
-        const response = await axios.put(
-            `${BASE_URL}/users/${encodeURIComponent(userId)}`,
-            updatedUser,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        const response = await axios.put(`${BASE_URL}/users/${userId}`, updatedUser, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
         return response.data;
     } catch (error) {
-        console.log("Error:", error);
+        console.log('Error:', error);
         return null;
     }
 };
+
 
 export const deleteUser = async (userId) => {
     try {
