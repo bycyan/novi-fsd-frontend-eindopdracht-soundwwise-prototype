@@ -1,6 +1,7 @@
 import React, {createContext, useEffect, useState} from 'react';
-import {getUserById, loginUser} from "../services/api";
+import {getUserById, loginUser, validateToken} from "../services/api";
 import jwt_decode from 'jwt-decode';
+import {useLocation} from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
@@ -12,23 +13,43 @@ export const AuthProvider = ({ children }) => {
         status: 'pending',
     });
 
+    const location = useLocation(); // Get current path
+    console.log('Location:', location.pathname);
+
     useEffect(() => {
         const checkAuthentication = async () => {
+            console.log("Checking authentication...");
 
             //Retrieve authentication token from the localStorage
             const token = localStorage.getItem('authToken');
-            if (token) {
-                //If token is found, call the loginUser
-                const response = await loginUser(token);
+            console.log("Token in localStorage:", token);
+
+            ///
+            if (token && location.pathname !== '/') { // Do not authenticate if we are on the home page
+                console.log("Token found:", token);
+
+                //If token is found, call the validateToken
+                const response = await validateToken(token);
+                console.log('Response from token:', response); // For debugging
                 //Decode the JWT
                 const decodedToken = jwt_decode(token);
 
-                // await getUserById(response.sub, token);
+                console.log('Decoded Token:', decodedToken); // Add this console.log statement
                 //If response is not null, set the user
-                if (response && decodedToken && decodedToken.user) {
-                    const userId = response.sub;
+                if (response?.data && decodedToken && decodedToken.user) {
+                    //
+                    console.log('Response Data:', response.data);
+                    console.log('Decoded Token:', decodedToken);
+                    const userId = decodedToken.user.id;
+                    console.log('User ID:', userId);
                     const userFromGetUserById = await getUserById(userId, token);
+                    console.log('User from getUserById:', userFromGetUserById);
                     const finalUser = userFromGetUserById || decodedToken.user;
+                    console.log('Final User:', finalUser);
+
+                    // const userId = decodedToken.user.id;
+                    // const userFromGetUserById = await getUserById(userId, token);
+                    // const finalUser = userFromGetUserById || decodedToken.user;
 
                     setUser(finalUser);
                     setIsAuth({
@@ -36,6 +57,9 @@ export const AuthProvider = ({ children }) => {
                         user: finalUser,
                         status: 'done',
                     });
+
+                } else {
+                    console.log("User not set");
                 }
             }
             else {
@@ -47,11 +71,27 @@ export const AuthProvider = ({ children }) => {
             }
         }
         void checkAuthentication();
-    } , []);
+    } , [location.pathname]);
+    ////
+
+
+    // function login(JWT) {
+    //     localStorage.setItem('authToken', JWT);
+    // }
 
     function login(JWT) {
-        localStorage.setItem('authToken', JWT);
+        loginUser(JWT)
+            .then((token) => {
+                if (token) {
+                    localStorage.setItem('authToken', JWT);
+                } else {
+                    console.log('Gebruiker is niet ingelogd!');
+                }
+            }
+        );
     }
+
+
 
       function logout() {
         localStorage.clear();
@@ -62,7 +102,7 @@ export const AuthProvider = ({ children }) => {
         });
 
         console.log('Gebruiker is uitgelogd!');
-        // history.push('/');
+        //todo redirect to login page
       }
 
     const contextData = {
@@ -73,7 +113,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ login, logout, contextData }}>
+        <AuthContext.Provider value={{ user, login, logout, contextData }}>
             {children}
             {/*{isAuth.status === 'done' ? children : <p>Loading...</p>}*/}
         </AuthContext.Provider>

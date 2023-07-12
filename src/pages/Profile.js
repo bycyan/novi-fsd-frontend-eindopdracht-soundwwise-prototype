@@ -1,28 +1,32 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { getUserById} from "../services/api";
+import { getUserById } from '../services/api';
 
 function Profile() {
-
-    const { user, setUser } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
+    const [userData, setUserData] = useState(null);
 
     useEffect(() => {
-        const userId = user.userId;
-        const token = localStorage.getItem('authToken');
+        const fetchUser = async () => {
+            if (user && user.id && user.token) {
+                const userData = await getUserById(user.id, user.token);
+                // Handle the user data
+                setUserData(userData);
+            }
+        };
 
-        void getUserById(userId, token)
-            .then((response) => {
-                setUser(response);
-            })
-            .catch((error) => {
-                console.log('Error:', error);
-            });
-    }, []);
+        fetchUser();
+    }, [user]);
+
+    if (!user || !userData) {
+        // Optional: Show a loading indicator or redirect to login
+        return <p>Loading...</p>;
+    }
 
     return (
         <div>
-            <h1>profile</h1>
-            <p>{user.firstName} {user.lastName}</p>
+            <h1>Profile Page</h1>
+            <h2>Name: {user.firstname} {user.lastname}</h2>
         </div>
     );
 }

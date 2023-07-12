@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useState} from "react";
 import { createUser, loginUser } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -45,10 +45,65 @@ function AuthForm() {
         return null;
     };
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //
+    //         if (isRegisterMode) {
+    //             const registeredUser = await handleRegister();
+    //             if (registeredUser) {
+    //                 // Registration successful
+    //                 // Perform any necessary actions
+    //
+    //                 // Call the loginUser function to authenticate the user
+    //                 const response = await loginUser(user);
+    //
+    //                 // Handle successful login
+    //                 if (response) {
+    //                     // Call the login function to set the authentication token
+    //                     // login(response.JWT);
+    //                     login(response.JWT);
+    //
+    //                     // Perform any additional actions after successful login
+    //                     // For example, navigate to a different page or update the state
+    //                     // ...
+    //
+    //                     console.log('User logged in successfully!');
+    //                 } else {
+    //                     // Handle failed login
+    //                     // ...
+    //                     console.log('Login failed!');
+    //                 }
+    //             }
+    //         } else {
+    //             // Login mode
+    //             // Call the loginUser function to authenticate the user
+    //             const response = await loginUser(user);
+    //
+    //             // Handle successful login
+    //             if (response) {
+    //                 // Call the login function to set the authentication token
+    //                 login(response.JWT);
+    //
+    //                 // Perform any additional actions after successful login
+    //                 // For example, navigate to a different page or update the state
+    //                 // ...
+    //
+    //                 console.log('User logged in successfully!');
+    //                 console.log(response);
+    //                 // navigate('/Profile');
+    //             } else {
+    //                 // Handle failed login
+    //                 // ...
+    //                 console.log('Login failed!');
+    //             }
+    //         }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (isRegisterMode) {
+            // Registration mode
             const registeredUser = await handleRegister();
             if (registeredUser) {
                 // Registration successful
@@ -59,19 +114,15 @@ function AuthForm() {
 
                 // Handle successful login
                 if (response) {
-                    // Call the login function to set the authentication token
-                    login(response.JWT);
-
                     // Perform any additional actions after successful login
                     // For example, navigate to a different page or update the state
                     // ...
 
-                    console.log('User logged in successfully!');
-
+                    console.log("User logged in successfully!");
                 } else {
                     // Handle failed login
                     // ...
-                    console.log('Login failed!');
+                    console.log("Login failed!");
                 }
             }
         } else {
@@ -81,23 +132,22 @@ function AuthForm() {
 
             // Handle successful login
             if (response) {
-                // Call the login function to set the authentication token
-                login(response.JWT);
-
                 // Perform any additional actions after successful login
                 // For example, navigate to a different page or update the state
                 // ...
 
-                console.log('User logged in successfully!');
+                console.log("User logged in successfully!");
                 console.log(response);
-                navigate("/Profile");
+
+                // navigate('/Profile');
             } else {
                 // Handle failed login
                 // ...
-                console.log('Login failed!');
+                console.log("Login failed!");
             }
         }
     };
+
 
 
 

@@ -2,17 +2,33 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080';
 
+//User endpoints
+//Collapse/Expand endpoints
 export const loginUser = async (user) => {
     try {
         const response = await axios.post(`${BASE_URL}/authenticate`, user);
+        console.log('Response from /authenticate:', response); // For debugging
         const authToken = response.data.token;
+        console.log('Response data:', response.data); // Logging the response data
         localStorage.setItem("authToken", authToken);
         return response.data;
+        // return authToken;
     } catch (error) {
         console.error("Error:", error);
         return null;
     }
 };
+export const validateToken = async (token) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/authenticate`, { token });
+        console.log('Token Validation Response:', response); // Add this line
+        return response.data;
+    } catch (error) {
+        console.error("Token Validation Error:", error); // Add this line
+        return null;
+    }
+};
+
 
 export const createUser = async (user) => {
     try {
@@ -35,6 +51,9 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (userId, token) => {
+    console.log("getUserById - userId:", userId);
+    console.log("getUserById - token:", token);
+
     try {
         if (userId && token) {
             const response = await axios.get(`${BASE_URL}/users/${userId}`, {
@@ -50,8 +69,6 @@ export const getUserById = async (userId, token) => {
         return null;
     }
 };
-
-
 
 
 export const updateUser = async (userId, updatedUser) => {
@@ -71,3 +88,5 @@ export const deleteUser = async (userId) => {
         console.log('Error:', error);
     }
 };
+
+//Project endpoints
