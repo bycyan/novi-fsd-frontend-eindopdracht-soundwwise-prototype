@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
     });
 
     const location = useLocation(); // Get current path
-    console.log('Location:', location.pathname);
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -22,45 +21,53 @@ export const AuthProvider = ({ children }) => {
 
             //Retrieve authentication token from the localStorage
             const token = localStorage.getItem('authToken');
-            console.log("Token in localStorage:", token);
+            // console.log("Token in localStorage:", token);
 
-            ///
             if (token && location.pathname !== '/') { // Do not authenticate if we are on the home page
                 console.log("Token found:", token);
+                const decoded = jwt_decode(token);
+                const userFromApi = await getUserById(decoded.sub, token);
+                setUser(userFromApi); // Set the user state with the fetched user data
+
+                setIsAuth({
+                    isAuth: true,
+                    user: userFromApi,
+                    status: 'done',
+                });
 
                 //If token is found, call the validateToken
-                const response = await validateToken(token);
-                console.log('Response from token:', response); // For debugging
-                //Decode the JWT
-                const decodedToken = jwt_decode(token);
+                // const response = await validateToken(token);
+                // console.log('Response from token:', response); // For debugging
+                // //Decode the JWT
+                // const decodedToken = jwt_decode(token);
+                //
+                // console.log('Decoded Token:', decodedToken); // Add this console.log statement
+                // //If response is not null, set the user
+                // if (response?.data && decodedToken && decodedToken.user) {
+                //     //
+                //     console.log('Response Data:', response.data);
+                //     console.log('Decoded Token:', decodedToken);
+                //     const userId = decodedToken.user.id;
+                //     console.log('User ID:', userId);
+                //     const userFromGetUserById = await getUserById(userId, token);
+                //     console.log('User from getUserById:', userFromGetUserById);
+                //     const finalUser = userFromGetUserById || decodedToken.user;
+                //     console.log('Final User:', finalUser);
+                //
+                //     // const userId = decodedToken.user.id;
+                //     // const userFromGetUserById = await getUserById(userId, token);
+                //     // const finalUser = userFromGetUserById || decodedToken.user;
 
-                console.log('Decoded Token:', decodedToken); // Add this console.log statement
-                //If response is not null, set the user
-                if (response?.data && decodedToken && decodedToken.user) {
-                    //
-                    console.log('Response Data:', response.data);
-                    console.log('Decoded Token:', decodedToken);
-                    const userId = decodedToken.user.id;
-                    console.log('User ID:', userId);
-                    const userFromGetUserById = await getUserById(userId, token);
-                    console.log('User from getUserById:', userFromGetUserById);
-                    const finalUser = userFromGetUserById || decodedToken.user;
-                    console.log('Final User:', finalUser);
-
-                    // const userId = decodedToken.user.id;
-                    // const userFromGetUserById = await getUserById(userId, token);
-                    // const finalUser = userFromGetUserById || decodedToken.user;
-
-                    setUser(finalUser);
-                    setIsAuth({
-                        isAuth: true,
-                        user: finalUser,
-                        status: 'done',
-                    });
-
-                } else {
-                    console.log("User not set");
-                }
+            //         setUser(finalUser);
+            //         setIsAuth({
+            //             isAuth: true,
+            //             user: finalUser,
+            //             status: 'done',
+            //         });
+            //
+            //     } else {
+            //         console.log("User not set");
+            //     }
             }
             else {
                 setIsAuth({

@@ -51,17 +51,18 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (userId, token) => {
-    console.log("getUserById - userId:", userId);
+    console.log("getUserByEmail - userId:", userId);
     console.log("getUserById - token:", token);
 
     try {
         if (userId && token) {
-            const response = await axios.get(`${BASE_URL}/users/${userId}`, {
+            const response = await axios.get(`${BASE_URL}/users/${encodeURIComponent(userId)}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log("getUserById - response:", response);
             return response.data;
         }
     } catch (error) {
@@ -71,12 +72,21 @@ export const getUserById = async (userId, token) => {
 };
 
 
-export const updateUser = async (userId, updatedUser) => {
+export const updateUser = async (userId, updatedUser, token) => {
     try {
-        const response = await axios.put(`${BASE_URL}/users/${userId}`, updatedUser);
+        const response = await axios.put(
+            `${BASE_URL}/users/${encodeURIComponent(userId)}`,
+            updatedUser,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
-        console.log('Error:', error);
+        console.log("Error:", error);
         return null;
     }
 };

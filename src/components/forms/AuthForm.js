@@ -139,7 +139,7 @@ function AuthForm() {
                 console.log("User logged in successfully!");
                 console.log(response);
 
-                // navigate('/Profile');
+                navigate('/Profile');
             } else {
                 // Handle failed login
                 // ...
