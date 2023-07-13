@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt_decode from "jwt-decode";
 
 const BASE_URL = 'http://localhost:8080';
 const authToken = localStorage.getItem('authToken');
@@ -14,23 +13,18 @@ const axiosInstance = axios.create({
 });
 
 
-//User endpoints
-//Collapse/Expand endpoints
+//Authentication endpoints
 export const loginUser = async (user) => {
     try {
         const response = await axios.post(`${BASE_URL}/authenticate`, user);
-        console.log('Response from /authenticate:', response); // For debugging
         const authToken = response.data.token;
-        console.log('Response data:', response.data); // Logging the response data
         localStorage.setItem("authToken", authToken);
         return response.data;
-        // return authToken;
     } catch (error) {
         console.error("Error:", error);
         return null;
     }
 };
-
 
 export const createUser = async (user) => {
     try {
@@ -43,70 +37,11 @@ export const createUser = async (user) => {
 };
 
 
-export const getAllUsers = async () => {
+//User endpoints
+export const getUserById = async (user) => {
     try {
-        const response = await axiosInstance.get(`${BASE_URL}/users`);
-        return response.data;
-    } catch (error) {
-        console.log('Error:', error);
-        return null;
-    }
-};
-
-// export const getUserById = async (id, token) => {
-//     console.log("userId:", id);
-//     console.log("token:", token);
-//
-//     try {
-//         if (id && token) {
-//             const response = await axiosInstance.get(`${BASE_URL}/users/${encodeURIComponent(id)}`, {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     Authorization: `Bearer ${token}`,
-//                 },
-//             });
-//             console.log("getUserById - response:", response.data.userId);
-//             return response.data;
-//         }
-//     } catch (error) {
-//         console.log('Error:', error);
-//         return null;
-//     }
-// };
-
-// export const getUserById = async (id, token) => {
-//     try {
-//         if (token) {
-//             console.log("About to decode token:", token);
-//             const decodedToken = jwt_decode(token);
-//             const userId = decodedToken.sub; // 'sub' property usually holds the user id
-//             console.log("userId:", userId);
-//
-//             const response = await axiosInstance.get(`${BASE_URL}/users/${encodeURIComponent(userId)}`, {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     Authorization: `Bearer ${token}`,
-//                 },
-//             });
-//             console.log("getUserById - user id response:", response.data.userId);
-//             return response.data;
-//         }
-//     } catch (error) {
-//         console.log('Error:', error);
-//         return null;
-//     }
-// };
-
-export const getUserById = async (user, token) => {
-    try {
-        const response = await axiosInstance.get(`${BASE_URL}/users/${user}`, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-
-        console.log("User fetched:", response.data);
+        const response = await axiosInstance.get(`${BASE_URL}/users/${user}`);
+        console.log("getUserById", response.data);
         return response.data;
     } catch (error) {
         console.error('Error:', error);
@@ -117,10 +52,6 @@ export const getUserById = async (user, token) => {
 export const updateUser = async (userId, updatedUser, token) => {
     try {
         const response = await axiosInstance.put(`${BASE_URL}/users/${userId}`, updatedUser, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
         });
         return response.data;
     } catch (error) {
@@ -129,63 +60,51 @@ export const updateUser = async (userId, updatedUser, token) => {
     }
 };
 
-export const uploadImage = async (file, token) => {
-    try {
-        const formData = new FormData();
-        formData.append('image', file);
-
-        const response = await axiosInstance.post(`${BASE_URL}/upload`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response.data.imageUrl; // Assuming the response contains the uploaded image URL
-    } catch (error) {
-        console.log('Error:', error);
-        return null;
-    }
-};
-
-
-export const deleteUser = async (userId) => {
-    try {
-        await axiosInstance.delete(`${BASE_URL}/users/${userId}`);
-    } catch (error) {
-        console.log('Error:', error);
-    }
-};
+// export const deleteUser = async (userId) => {
+//     try {
+//         await axiosInstance.delete(`${BASE_URL}/users/${userId}`);
+//     } catch (error) {
+//         console.log('Error:', error);
+//     }
+// };
 
 //Project endpoints
-
-// Get all projects
 export const getAllProjects = () => {
     return axiosInstance.get(`${BASE_URL}/projects`);
 };
 
-// Get project by ID
 export const getProjectById = (projectId) => {
     return axiosInstance.get(`${BASE_URL}/projects/${projectId}`);
 };
 
-// Create project
-export const createProject = async (project, token) => {
-    try {
-        const response = await axiosInstance.post(`${BASE_URL}/projects`, project, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        });
+// export const createProject = async (project, token) => {
+//     try {
+//         const BASE_URL = 'https://example.com'; // Replace with your base URL
+//
+//         // eslint-disable-next-line react-hooks/rules-of-hooks
+//         const { user } = useContext(AuthContext); // Assuming you have the AuthContext available
+//
+//         project.user = {
+//             userId: user.userId
+//         };
+//         console.log("Projects user id?:", user.userId);
+//
+//         const response = await axiosInstance.post(`${BASE_URL}/projects`, project, {
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`,
+//             },
+//         });
+//
+//         console.log("Response from server:", response);
+//
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error:', error);
+//         throw error;
+//     }
+// };
 
-        console.log("Response from server:", response);
-
-        return response.data;
-    } catch (error) {
-        console.error('Error:', error);
-        throw error;
-    }
-};
 
 
 

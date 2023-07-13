@@ -4,6 +4,14 @@ import { AuthContext } from '../context/AuthContext';
 function Tasks() {
     const { user } = useContext(AuthContext);
 
+    //Fetch tasks
+
+    //functions
+    //Task add
+    //Task delete
+    //Task complete
+
+
     return (
         <div>
             <h1>Tasks</h1>
@@ -12,8 +20,10 @@ function Tasks() {
                         <div>
                             {user.tasks.map((task) => (
                                 <div key={task.id}>
-                                    <p>{task.taskName}</p>
-                                    <p>{task.dueDate}</p>
+                                    <div>
+                                        <h5>{task.taskName}</h5>
+                                        <p>Due date: {task.dueDate}</p>
+                                    </div>
                                     <p>{task.complete}</p>
                                 </div>
                             ))}

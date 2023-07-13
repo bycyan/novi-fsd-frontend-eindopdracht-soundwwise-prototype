@@ -45,60 +45,6 @@ function AuthForm() {
         return null;
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //
-    //         if (isRegisterMode) {
-    //             const registeredUser = await handleRegister();
-    //             if (registeredUser) {
-    //                 // Registration successful
-    //                 // Perform any necessary actions
-    //
-    //                 // Call the loginUser function to authenticate the user
-    //                 const response = await loginUser(user);
-    //
-    //                 // Handle successful login
-    //                 if (response) {
-    //                     // Call the login function to set the authentication token
-    //                     // login(response.JWT);
-    //                     login(response.JWT);
-    //
-    //                     // Perform any additional actions after successful login
-    //                     // For example, navigate to a different page or update the state
-    //                     // ...
-    //
-    //                     console.log('User logged in successfully!');
-    //                 } else {
-    //                     // Handle failed login
-    //                     // ...
-    //                     console.log('Login failed!');
-    //                 }
-    //             }
-    //         } else {
-    //             // Login mode
-    //             // Call the loginUser function to authenticate the user
-    //             const response = await loginUser(user);
-    //
-    //             // Handle successful login
-    //             if (response) {
-    //                 // Call the login function to set the authentication token
-    //                 login(response.JWT);
-    //
-    //                 // Perform any additional actions after successful login
-    //                 // For example, navigate to a different page or update the state
-    //                 // ...
-    //
-    //                 console.log('User logged in successfully!');
-    //                 console.log(response);
-    //                 // navigate('/Profile');
-    //             } else {
-    //                 // Handle failed login
-    //                 // ...
-    //                 console.log('Login failed!');
-    //             }
-    //         }
-    // };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -112,37 +58,18 @@ function AuthForm() {
                 // Call the loginUser function to authenticate the user
                 const response = await loginUser(user);
 
-                // Handle successful login
                 if (response) {
-                    // Perform any additional actions after successful login
-                    // For example, navigate to a different page or update the state
-                    // ...
-
-                    console.log("User logged in successfully!");
+                    navigate('/Profile');
                 } else {
-                    // Handle failed login
-                    // ...
                     console.log("Login failed!");
                 }
             }
         } else {
             // Login mode
-            // Call the loginUser function to authenticate the user
             const response = await loginUser(user);
-
-            // Handle successful login
             if (response) {
-                // Perform any additional actions after successful login
-                // For example, navigate to a different page or update the state
-                // ...
-
-                console.log("User logged in successfully!");
-                console.log(response);
-
                 navigate('/Profile');
             } else {
-                // Handle failed login
-                // ...
                 console.log("Login failed!");
             }
         }
