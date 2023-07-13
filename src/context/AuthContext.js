@@ -34,40 +34,6 @@ export const AuthProvider = ({ children }) => {
                     user: userFromApi,
                     status: 'done',
                 });
-
-                //If token is found, call the validateToken
-                // const response = await validateToken(token);
-                // console.log('Response from token:', response); // For debugging
-                // //Decode the JWT
-                // const decodedToken = jwt_decode(token);
-                //
-                // console.log('Decoded Token:', decodedToken); // Add this console.log statement
-                // //If response is not null, set the user
-                // if (response?.data && decodedToken && decodedToken.user) {
-                //     //
-                //     console.log('Response Data:', response.data);
-                //     console.log('Decoded Token:', decodedToken);
-                //     const userId = decodedToken.user.id;
-                //     console.log('User ID:', userId);
-                //     const userFromGetUserById = await getUserById(userId, token);
-                //     console.log('User from getUserById:', userFromGetUserById);
-                //     const finalUser = userFromGetUserById || decodedToken.user;
-                //     console.log('Final User:', finalUser);
-                //
-                //     // const userId = decodedToken.user.id;
-                //     // const userFromGetUserById = await getUserById(userId, token);
-                //     // const finalUser = userFromGetUserById || decodedToken.user;
-
-            //         setUser(finalUser);
-            //         setIsAuth({
-            //             isAuth: true,
-            //             user: finalUser,
-            //             status: 'done',
-            //         });
-            //
-            //     } else {
-            //         console.log("User not set");
-            //     }
             }
             else {
                 setIsAuth({
@@ -79,12 +45,6 @@ export const AuthProvider = ({ children }) => {
         }
         void checkAuthentication();
     } , [location.pathname]);
-    ////
-
-
-    // function login(JWT) {
-    //     localStorage.setItem('authToken', JWT);
-    // }
 
     function login(JWT) {
         loginUser(JWT)
