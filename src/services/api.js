@@ -77,30 +77,53 @@ export const getProjectById = (projectId) => {
     return axiosInstance.get(`${BASE_URL}/projects/${projectId}`);
 };
 
-export const getAllSongs = (projectId) => {
-    return axiosInstance.get(`${BASE_URL}/songs`,{
-        params: {
-            projectId: projectId
-        }
-    }
-    );
-}
-
-export const createSong = (song) => {
+export const getAllSongs = async (projectId) => {
     try {
-        return axiosInstance.post(`${BASE_URL}/songs`, song);
+        const token = localStorage.getItem('authToken');
+        const response = await axiosInstance.get(`${BASE_URL}/songs`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: {
+                projectId: projectId
+            }
+        });
+        return response.data;
     } catch (error) {
         console.error('Error:', error);
         return null;
     }
-}
+};
+
+
+
+
+export const createSong = async (projectId, song) => {
+    try {
+        const response = await axiosInstance.post(`${BASE_URL}/songs`, {
+            ...song,
+            project: {
+                projectId: projectId
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+};
+
 
 export const createProject = (userId, project) => {
     try {
+        const { projectId, ...rest } = project; // Destructure the projectId from the project object
         return axiosInstance.post(`${BASE_URL}/projects`, {
-            ...project,
+            ...rest, // Spread the rest of the project properties
             user: {
                 userId: userId
+            },
+            project: {
+                projectId: projectId // Add the projectId separately
             }
         });
     } catch (error) {
@@ -108,6 +131,7 @@ export const createProject = (userId, project) => {
         return null;
     }
 };
+
 
 
 

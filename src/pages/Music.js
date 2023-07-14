@@ -46,6 +46,7 @@ function Music() {
                                 >
                                     <h3>{project.projectName}</h3>
                                     <p>{project.projectArtist}</p>
+                                    <p>project.projectId: {project.projectId}</p>
                                 </div>
                             </Link>
                         ))}

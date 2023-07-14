@@ -44,19 +44,33 @@ export const AuthProvider = ({ children }) => {
         void checkAuthentication();
     } , [location.pathname]);
 
+    // function login(JWT) {
+    //     loginUser(JWT)
+    //         .then((token) => {
+    //             if (token) {
+    //                 localStorage.setItem('authToken', JWT);
+    //             } else {
+    //                 console.log('Gebruiker is niet ingelogd!');
+    //             }
+    //         }
+    //     );
+    // }
+
     function login(JWT) {
         loginUser(JWT)
-            .then((token) => {
+            .then(async (token) => {
                 if (token) {
+                    const decoded = jwt_decode(JWT);
+                    const userFromApi = await getUserById(decoded.sub, JWT);
+                    setUser({...userFromApi, token}); // Set the user state with the fetched user data and token
                     localStorage.setItem('authToken', JWT);
                 } else {
                     console.log('Gebruiker is niet ingelogd!');
                 }
-            }
-        );
+            });
     }
 
-      function logout() {
+    function logout() {
         localStorage.clear();
         setIsAuth({
           isAuth: false,

@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { createSong } from '../../services/api';
 import { AuthContext } from "../../context/AuthContext";
 
-const AddSong = () => {
-    const [songTitle, setSongTitle] = useState('');
+const AddSong = ({ projectId }) => {
+    const [title, setTitle] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { user } = useContext(AuthContext); // use context to get the user
+    const { user } = useContext(AuthContext);
 
     const handleSongTitleChange = (e) => {
-        setSongTitle(e.target.value);
+        setTitle(e.target.value);
     };
 
     const handleSubmit = async (e) => {
@@ -18,19 +18,16 @@ const AddSong = () => {
         try {
             setLoading(true);
             const song = {
-                title: songTitle,
-                projectId: user.selectedProjectId,  // access selectedProjectId directly from the user object
+                title: title
             };
 
-            const createdSong = await createSong(song);
+            const createdSong = await createSong(projectId, song);
 
             console.log('Created song:', createdSong);
-            // Handle success or perform any additional actions
 
-            setSongTitle('');
+            setTitle('');
         } catch (error) {
             console.error('Error:', error);
-            // Handle error or display error message
         } finally {
             setLoading(false);
         }
@@ -45,7 +42,7 @@ const AddSong = () => {
                     <input
                         type="text"
                         id="songTitle"
-                        value={songTitle}
+                        value={title}
                         onChange={handleSongTitleChange}
                         required
                     />

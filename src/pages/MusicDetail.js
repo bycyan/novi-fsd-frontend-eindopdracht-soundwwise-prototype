@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { getAllSongs, getProjectById } from '../services/api';
+import { getProjectById, getAllSongs } from '../services/api';
 import { useParams } from 'react-router-dom';
-import AddProject from "../components/forms/AddProject";
 import AddSong from "../components/forms/AddSong";
 
 const MusicDetail = () => {
@@ -12,6 +11,8 @@ const MusicDetail = () => {
     const [songs, setSongs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isFormOpen, setIsFormOpen] = useState(false);
+
+    console.log('User:', user);
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -31,12 +32,15 @@ const MusicDetail = () => {
     useEffect(() => {
         const fetchSongs = async () => {
             try {
-                const response = await getAllSongs(projectId);
+                const token = localStorage.getItem('authToken');
+                const response = await getAllSongs(projectId, token);
                 setSongs(response.data);
+                console.log(token)
             } catch (error) {
                 console.log('Error:', error);
             }
         };
+
 
         fetchSongs();
     }, [projectId]);
@@ -65,11 +69,17 @@ const MusicDetail = () => {
             {isFormOpen && <AddSong projectId={projectId} />}
 
             <h4>Songs:</h4>
-            <ul>
-                {songs.map((song) => (
-                    <li key={song.songId}>{song.title}</li>
-                ))}
-            </ul>
+            {songs && songs.length > 0 ? (
+                <ul>
+                    {songs.map((song) => (
+                        <li key={song.songId}>{song.title}</li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No songs found</p>
+            )}
+
+
         </div>
     );
 };
