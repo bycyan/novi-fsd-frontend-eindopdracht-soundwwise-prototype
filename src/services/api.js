@@ -77,6 +77,45 @@ export const getProjectById = (projectId) => {
     return axiosInstance.get(`${BASE_URL}/projects/${projectId}`);
 };
 
+export const getAllSongs = (projectId) => {
+    return axiosInstance.get(`${BASE_URL}/songs`,{
+        params: {
+            projectId: projectId
+        }
+    }
+    );
+}
+
+export const createSong = (song) => {
+    try {
+        return axiosInstance.post(`${BASE_URL}/songs`, song);
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
+export const createProject = (userId, project) => {
+    try {
+        return axiosInstance.post(`${BASE_URL}/projects`, {
+            ...project,
+            user: {
+                userId: userId
+            }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+};
+
+
+
+//Task endpoints
+// export const getAllTasks = () => {
+//     return axiosInstance.get(`${BASE_URL}/tasks`);
+// };
+
 // export const createProject = async (project, token) => {
 //     try {
 //         const BASE_URL = 'https://example.com'; // Replace with your base URL

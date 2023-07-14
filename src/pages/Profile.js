@@ -1,21 +1,19 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import EditProfileForm from '../components/forms/EditProfileForm';
 
+//todo: Edit form is messing up the fetch user data from the api
+
 function Profile() {
-    const { user } = useContext(AuthContext);
+    const { user, updateUser } = useContext(AuthContext);
     const [isFormOpen, setIsFormOpen] = useState(false);
 
-    const openForm = () => {
-        setIsFormOpen(true);
-    };
-
-    //todo: EditProfileForm && include all fields
-    //User is reset to null after updating
+    // const toggleForm = () => {
+    //     setIsFormOpen(!isFormOpen); // Toggle the state between true and false
+    // };
 
     return (
         <div>
-
             <h1>Profile</h1>
             {user ? (
                 <div>
@@ -31,7 +29,7 @@ function Profile() {
                         <ul>
                             {user.projects.map((project) => (
                                 <div key={project.projectId}>
-                                    <img src={project.projectImage} alt="project-image"/>
+                                    <img src={project.projectImage} alt="project-image" />
                                     <h4>{project.projectName}</h4>
                                     <p>{project.projectArtist}</p>
                                 </div>
@@ -39,17 +37,16 @@ function Profile() {
                         </ul>
                     </div>
 
-                    <button onClick={openForm}>Edit</button>
-                    {isFormOpen && (
-                        <>
-                            <EditProfileForm
-                                initialValue={user.firstName}
-                                userId={user.userId}
-                                token={user.token}
-                            />
-                        </>
-                    )}
-
+                    {/*<button onClick={toggleForm}>*/}
+                    {/*    {isFormOpen ? 'Cancel' : 'Edit'} /!* Change button text based on the form state *!/*/}
+                    {/*</button>*/}
+                    {/*{isFormOpen && (*/}
+                    {/*    <EditProfileForm*/}
+                    {/*        initialValue={user}*/}
+                    {/*        userId={user.userId}*/}
+                    {/*        token={user.token}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                 </div>
             ) : (
                 <p>Loading user data...</p>
