@@ -77,26 +77,25 @@ export const getProjectById = (projectId) => {
     return axiosInstance.get(`${BASE_URL}/projects/${projectId}`);
 };
 
-export const getAllSongs = async (projectId) => {
+export const getAllSongs = async (projectId, token) => {
     try {
-        const token = localStorage.getItem('authToken');
         const response = await axiosInstance.get(`${BASE_URL}/songs`, {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
             params: {
-                projectId: projectId
+                projectId: projectId,
             }
         });
+
+
         return response.data;
+
     } catch (error) {
         console.error('Error:', error);
         return null;
     }
 };
-
-
-
 
 export const createSong = async (projectId, song) => {
     try {
@@ -206,9 +205,9 @@ export const removeContributorFromProject = (projectId, contributorName) => {
 };
 
 // Get all songs by project ID
-export const getAllSongsByProjectId = (projectId) => {
-    return axiosInstance.get(`${BASE_URL}/projects/${projectId}/songs`);
-};
+// export const getAllSongsByProjectId = (projectId) => {
+//     return axiosInstance.get(`${BASE_URL}/projects/${projectId}/songs`);
+// };
 
 // Get all files by project ID
 export const getAllFilesByProjectId = (projectId) => {
