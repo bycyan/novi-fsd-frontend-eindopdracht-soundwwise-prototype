@@ -1,11 +1,13 @@
 import React, {createContext, useEffect, useState} from 'react';
 import {getUserById, loginUser} from "../services/api";
 import jwt_decode from 'jwt-decode';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export const AuthContext = createContext(null);
 
+
 export const AuthProvider = ({ children }) => {
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState({
         isAuth: false,
@@ -79,7 +81,7 @@ export const AuthProvider = ({ children }) => {
         });
 
         console.log('Gebruiker is uitgelogd!');
-        //todo redirect to login page
+        navigate ('/');
       }
 
     const contextData = {

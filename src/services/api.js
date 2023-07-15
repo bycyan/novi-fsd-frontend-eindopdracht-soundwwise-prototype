@@ -38,6 +38,17 @@ export const createUser = async (user) => {
 
 
 //User endpoints
+
+export const getAllUsers = async () => {
+    try {
+        const response = await axiosInstance.get(`${BASE_URL}/users`);
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
 export const getUserById = async (user) => {
     try {
         const response = await axiosInstance.get(`${BASE_URL}/users/${user}`);
@@ -141,52 +152,18 @@ export const getAllSongs = async (projectId, token) => {
     }
 };
 
-export const createSong = async (projectId, song) => {
+
+export const createSong = async (userId, projectId, songItem) => {
     try {
-        const response = await axiosInstance.post(`${BASE_URL}/songs`, {
-            ...song,
+        return await axiosInstance.post(`${BASE_URL}/songs`, {
+            ...songItem,
+            user: {
+                userId: userId
+            },
             project: {
                 projectId: projectId
             }
         });
-        return response.data;
-    } catch (error) {
-        console.error('Error:', error);
-        return null;
-    }
-};
-
-
-export const createProject = (userId, project) => {
-    try {
-        const { projectId, ...rest } = project; // Destructure the projectId from the project object
-        return axiosInstance.post(`${BASE_URL}/projects`, {
-            ...rest, // Spread the rest of the project properties
-            user: {
-                userId: userId
-            },
-            project: {
-                projectId: projectId // Add the projectId separately
-            }
-        });
-    } catch (error) {
-        console.error('Error:', error);
-        return null;
-    }
-};
-
-export const createTask = (userId, task) => {
-    try {
-        const { taskId, ...rest } = task; // Destructure the projectId from the project object
-        return axiosInstance.post(`${BASE_URL}/tasks`, {
-            ...rest, // Spread the rest of the project properties
-            user: {
-                userId: userId
-            },
-            task: {
-                taskId: taskId // Add the projectId separately
-            }
-        });
     } catch (error) {
         console.error('Error:', error);
         return null;
@@ -196,11 +173,41 @@ export const createTask = (userId, task) => {
 
 
 
+    export const createProject = (userId, project) => {
+        try {
+            const {projectId, ...rest} = project; // Destructure the projectId from the project object
+            return axiosInstance.post(`${BASE_URL}/projects`, {
+                ...rest, // Spread the rest of the project properties
+                user: {
+                    userId: userId
+                },
+                project: {
+                    projectId: projectId // Add the projectId separately
+                }
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    };
 
-
-
-
-
+    export const createTask = (userId, task) => {
+        try {
+            const {taskId, ...rest} = task; // Destructure the projectId from the project object
+            return axiosInstance.post(`${BASE_URL}/tasks`, {
+                ...rest, // Spread the rest of the project properties
+                user: {
+                    userId: userId
+                },
+                task: {
+                    taskId: taskId // Add the projectId separately
+                }
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    };
 
 
 // Update project
@@ -210,24 +217,24 @@ export const createTask = (userId, task) => {
 
 
 // Delete project
-export const deleteProject = (projectId) => {
-    return axiosInstance.delete(`${BASE_URL}/projects/${projectId}`);
-};
+    export const deleteProject = (projectId) => {
+        return axiosInstance.delete(`${BASE_URL}/projects/${projectId}`);
+    };
 
 // Get contributors by project ID
-export const getContributorsByProjectId = (projectId) => {
-    return axiosInstance.get(`${BASE_URL}/projects/${projectId}/contributors`);
-};
+    export const getContributorsByProjectId = (projectId) => {
+        return axiosInstance.get(`${BASE_URL}/projects/${projectId}/contributors`);
+    };
 
 // Add contributor to project
-export const addContributorToProject = (projectId, contributor) => {
-    return axiosInstance.post(`${BASE_URL}/projects/${projectId}/contributors`, contributor);
-};
+    export const addContributorToProject = (projectId, contributor) => {
+        return axiosInstance.post(`${BASE_URL}/projects/${projectId}/contributors`, contributor);
+    };
 
 // Remove contributor from project
-export const removeContributorFromProject = (projectId, contributorName) => {
-    return axiosInstance.delete(`${BASE_URL}/projects/${projectId}/contributors/${contributorName}`);
-};
+    export const removeContributorFromProject = (projectId, contributorName) => {
+        return axiosInstance.delete(`${BASE_URL}/projects/${projectId}/contributors/${contributorName}`);
+    };
 
 // Get all songs by project ID
 // export const getAllSongsByProjectId = (projectId) => {
@@ -235,8 +242,8 @@ export const removeContributorFromProject = (projectId, contributorName) => {
 // };
 
 // Get all files by project ID
-export const getAllFilesByProjectId = (projectId) => {
-    return axiosInstance.get(`${BASE_URL}/projects/${projectId}/files`);
-};
+    export const getAllFilesByProjectId = (projectId) => {
+        return axiosInstance.get(`${BASE_URL}/projects/${projectId}/files`);
+    };
 
-export {axiosInstance};
+    export {axiosInstance};

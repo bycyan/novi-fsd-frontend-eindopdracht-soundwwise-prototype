@@ -1,11 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import AddTask from '../components/forms/AddTask';
-import {deleteTask, updateTask, updateUser} from "../services/api";
+import {deleteTask} from "../services/api";
+import "./Tasks.css"
+import Checked from "../assests/checked.svg";
 
 function Tasks() {
     const { user, setUser } = useContext(AuthContext);
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+
 
     const openForm = () => {
         setIsFormOpen(true);
@@ -15,6 +19,7 @@ function Tasks() {
         try {
             const token = localStorage.getItem('authToken');
             await deleteTask(taskId, token);
+            setIsChecked((prevState) => !prevState);
 
             setUser((prevUser) => ({
                 ...prevUser,
@@ -27,30 +32,49 @@ function Tasks() {
     };
 
     return (
-        <div>
-            <h1>Tasks</h1>
+        <div className="container">
             {user ? (
-                <div>
+                <div className="tasks-container">
                     <div>
+                        <section className="outer-container">
+                            <div className="flex-container tasks">
+                                <div className="new-task-button">
+                                    <h6 onClick={openForm}>+ new task</h6>
+                                </div>
+                                <div className="task-filter">
+                                    {/*<img src={filter} alt="" />*/}
+                                </div>
+                            </div>
+                        </section>
+
+
                         {[...user.tasks].reverse().map((task) => (
                             <div key={task.taskId}>
-                                <div>
-                                    <h5>{task.taskName}</h5>
-                                    <p>Due date: {task.dueDate}</p>
-                                </div>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        id={`checkbox-${task.taskId}`} // Unique identifier for each checkbox
-                                        checked={task.isComplete || false} // Set to false if undefined
-                                        onChange={() => handleTaskComplete(task.taskId)}
-                                    />
-                                    Complete
-                                </label>
+                                <section className="outer-container">
+                                    <div className="flex-container task-item">
+                                        <div>
+                                            <h5>{task.name}</h5>
+                                            <p>Due date: {task.dueDate}</p>
+                                        </div>
+                                        <label className="checkbox-container">
+                                            <input
+
+                                                type="checkbox"
+                                                id={`checkbox-${task.taskId}`} // Unique identifier for each checkbox
+                                                checked={task.isComplete || false} // Set to false if undefined
+                                                onChange={() => handleTaskComplete(task.taskId)}
+                                            />
+                                            <span className={`checkbox-custom ${isChecked ? 'checked' : ''}`}>
+                                                {isChecked && <img src={Checked} alt="" />}
+                                            </span>
+                                        </label>
+                                    </div>
+                                </section>
+
                             </div>
                         ))}
                     </div>
-                    <button onClick={openForm}>Add</button>
+
                     {isFormOpen && <AddTask />} {/* Render the AddTask component */}
                 </div>
             ) : (

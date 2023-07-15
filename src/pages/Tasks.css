@@ -1,0 +1,24 @@
+.tasks{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.new-task-button{
+    width: 100%;
+    cursor: pointer;
+}
+
+.new-task-button:hover{
+    color: var(--primary);
+}
+
+.task-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.task-filter{
+    width: 25px;
+}

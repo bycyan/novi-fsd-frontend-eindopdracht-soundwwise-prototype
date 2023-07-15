@@ -1,0 +1,19 @@
+.upper-nav-back{
+    background-color: var(--secondary);
+    border-bottom: 0.01rem solid var(--grey);
+}
+
+.upper-nav{
+    max-width: 940px;
+    height: 70px;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    padding: 0 15px;
+
+}
+
+.upper-nav img{
+    width: 35px;
+    height: auto;
+}

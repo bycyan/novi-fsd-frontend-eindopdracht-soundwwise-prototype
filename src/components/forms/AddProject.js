@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { createProject } from '../../services/api';
 import { AuthContext } from "../../context/AuthContext";
+import './Forms.css';
 
 const AddProject = () => {
     const [projectName, setProjectName] = useState('');
@@ -47,8 +48,7 @@ const AddProject = () => {
 
     return (
         <div>
-            <h1>Add Project</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="form-container">
                 <div>
                     <label htmlFor="projectName">Project Name:</label>
                     <input

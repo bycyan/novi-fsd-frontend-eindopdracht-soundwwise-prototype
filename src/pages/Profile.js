@@ -1,52 +1,90 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { AuthContext } from '../context/AuthContext';
 import EditProfileForm from '../components/forms/EditProfileForm';
-
-//todo: Edit form is messing up the fetch user data from the api
+import './Profile.css';
+import {Link} from "react-router-dom";
 
 function Profile() {
-    const { user, updateUser } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [isFormOpen, setIsFormOpen] = useState(false);
 
-    // const toggleForm = () => {
-    //     setIsFormOpen(!isFormOpen); // Toggle the state between true and false
-    // };
+    const toggleForm = () => {
+        setIsFormOpen(!isFormOpen);
+    };
+
+    const handleCancel = () => {
+        setIsFormOpen(false);
+    };
 
     return (
-        <div>
-            <h1>Profile</h1>
+        <div className="container">
             {user ? (
                 <div>
-                    <img src={user.headerImg} alt="header-img" />
-                    <img src={user.profileImg} alt="profile-img" />
-                    <p>{user.firstName}</p>
-                    <p>{user.lastName}</p>
-                    <p>{user.jobDescription}</p>
-                    <p>{user.userId}</p>
+                    <div className="profile-cover-img"><img
+                        src="https://as1.ftcdn.net/v2/jpg/02/80/37/88/1000_F_280378886_GmipikDFJken17oeXsnllSI46qzlKm8R.jpg"
+                        alt=""/>
+                        {/*todo: implement profile-img/header-img upload*/}
+                        {/*<img src={user.headerImg} alt="header-img" />*/}
+                    </div>
+                    <section className="outer-container profile-header-section">
+                        <img src="https://www.postendekker.nl/wp-content/uploads/2021/10/dummy-profile.jpg" alt="profile-img" />
+                        {/*<img src={user.profileImg} alt="profile-img" />*/}
+                        <h3>{user.firstName} {user.lastName}</h3>
+                        <h6>{user.jobDescription}</h6>
+                        <button onClick={toggleForm}>
+                            {isFormOpen ? 'Cancel' : 'Edit'} {/* Change button text based on the form state */}
+                        </button>
+                    </section>
+
+
 
                     <div>
-                        Projects:
-                        <ul>
-                            {user.projects.map((project) => (
-                                <div key={project.projectId}>
-                                    <img src={project.projectImage} alt="project-image" />
-                                    <h4>{project.projectName}</h4>
-                                    <p>{project.projectArtist}</p>
-                                </div>
-                            ))}
-                        </ul>
+                        <section className="outer-container profile-experience-section">
+                            <div className="header flex-container">
+                                <h4>Showcases</h4>
+                            </div>
+                            <ul>
+                                {user.projects.map((project) => (
+                                    <div key={project.projectId}>
+                                        <Link
+                                            className="link-to-project"
+                                            to={`/music/${project.projectId}`}
+                                            style={{ textDecoration: 'none' }}
+                                        >
+                                            <div>
+                                                <div className="experience-item">
+                                                    <div className="flex-container">
+                                                        <img
+                                                            src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/06/fdcd5a_d8dd6d540bd84e4e9df8cbcfa376ce0dmv2.jpg?resize=1000%2C1000&ssl=1"
+                                                            alt=""
+                                                        />
+                                                        {/*todo: implement fetching project-image*/}
+                                                        {/* <img src={project.projectImage} alt="project-image" /> */}
+                                                        <div className="info">
+                                                            <h5>{project.projectName}</h5>
+                                                            <h6>{project.projectArtist}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                ))}
+                            </ul>
+                        </section>
                     </div>
 
-                    {/*<button onClick={toggleForm}>*/}
-                    {/*    {isFormOpen ? 'Cancel' : 'Edit'} /!* Change button text based on the form state *!/*/}
-                    {/*</button>*/}
-                    {/*{isFormOpen && (*/}
-                    {/*    <EditProfileForm*/}
-                    {/*        initialValue={user}*/}
-                    {/*        userId={user.userId}*/}
-                    {/*        token={user.token}*/}
-                    {/*    />*/}
-                    {/*)}*/}
+
+
+
+                    {isFormOpen && (
+                        <EditProfileForm
+                            initialValue={user}
+                            userId={user.id}
+                            token={user.token}
+                            onCancel={handleCancel}
+                        />
+                    )}
                 </div>
             ) : (
                 <p>Loading user data...</p>

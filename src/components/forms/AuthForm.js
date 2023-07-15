@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import { createUser, loginUser } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import "./Forms.css";
 
 function AuthForm() {
     const navigate = useNavigate();
@@ -60,6 +61,7 @@ function AuthForm() {
 
                 if (response) {
                     navigate('/Profile');
+                    window.location.reload();
                 } else {
                     console.log("Login failed!");
                 }
@@ -81,10 +83,12 @@ function AuthForm() {
 
     return (
         <div>
+
             {isRegisterMode ? (
-                <div className="container">
-                    <h1>Create Account</h1>
-                    <form onSubmit={handleSubmit}>
+            <>
+                <div className="auth-container">
+                    {/*<h1>Create Account</h1>*/}
+                    <form onSubmit={handleSubmit} className="auth-form">
                         <input
                             type="text"
                             name="firstname"
@@ -123,33 +127,36 @@ function AuthForm() {
                         </p>
                     </form>
                 </div>
+            </>
             ) : (
                 <>
-                    <h1>Login</h1>
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={user.email}
-                            onChange={handleChange}
-                        />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={user.password}
-                            onChange={handleChange}
-                        />
-                        <button type="submit">Login</button>
+                    <div className="auth-container">
+                        {/*<h1>Login</h1>*/}
+                        <form onSubmit={handleSubmit} className="auth-form">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={user.email}
+                                onChange={handleChange}
+                            />
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={user.password}
+                                onChange={handleChange}
+                            />
+                            <button type="submit">Login</button>
 
-                        <p>
-                            Don't have an account?{" "}
-                            <button type="button" onClick={handleToggleForm}>
-                                Sign Up
-                            </button>
-                        </p>
-                    </form>
+                            <p>
+                                Don't have an account?{" "}
+                                <button type="button" onClick={handleToggleForm}>
+                                    Sign Up
+                                </button>
+                            </p>
+                        </form>
+                    </div>
                 </>
             )}
         </div>

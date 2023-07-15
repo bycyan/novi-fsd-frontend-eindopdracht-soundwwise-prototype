@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { createSong } from '../../services/api';
-import { AuthContext } from "../../context/AuthContext";
+import {createSong} from '../../services/api';
+import { AuthContext } from '../../context/AuthContext';
 
 const AddSong = ({ projectId }) => {
     const [title, setTitle] = useState('');
     const [loading, setLoading] = useState(false);
-    const [filePath, setFilePath] = useState(null);
+    const [file, setFile] = useState(null);
+    const [error, setError] = useState('');
+
 
     const { user } = useContext(AuthContext);
 
@@ -14,8 +16,8 @@ const AddSong = ({ projectId }) => {
     };
 
     const handleMp3FileChange = (e) => {
-        const file = e.target.files[0];
-        setFilePath(URL.createObjectURL(file));
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
     };
 
     const handleSubmit = async (e) => {
@@ -23,26 +25,31 @@ const AddSong = ({ projectId }) => {
 
         try {
             setLoading(true);
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('mp3File', filePath);
+            const songItem = {
+                title: title,
+                filePath: file,
+            };
 
-            const createdSong = await createSong(projectId, formData);
+            const createdSong = await createSong(user.id, projectId, songItem);
 
             console.log('Created song:', createdSong);
+            // Handle success or perform any additional actions
 
             setTitle('');
-            setFilePath(null);
+            setFile(null);
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
+            // Handle error or display error message
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div>
+        <div className="modal overlay">
             <h1>Add Song</h1>
+            {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="songTitle">Song Title:</label>
