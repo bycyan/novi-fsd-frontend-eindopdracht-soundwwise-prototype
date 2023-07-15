@@ -35,6 +35,8 @@ const AddProject = () => {
 
             setProjectName('');
             setProjectArtist('');
+
+            window.location.reload();
         } catch (error) {
             console.error('Error:', error);
             // Handle error or display error message

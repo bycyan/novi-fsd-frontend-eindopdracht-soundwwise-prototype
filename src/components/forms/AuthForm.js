@@ -69,6 +69,7 @@ function AuthForm() {
             const response = await loginUser(user);
             if (response) {
                 navigate('/Profile');
+                window.location.reload();
             } else {
                 console.log("Login failed!");
             }

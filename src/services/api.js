@@ -50,15 +50,59 @@ export const getUserById = async (user) => {
 };
 
 export const updateUser = async (userId, updatedUser, token) => {
+    console.log(token);
+    console.log(updatedUser);
+    console.log(userId)
     try {
-        const response = await axiosInstance.put(`${BASE_URL}/users/${userId}`, updatedUser, {
-        });
+        const response = await axiosInstance.put(
+            `${BASE_URL}/users/${userId}`,
+            updatedUser,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.log('Error:', error);
         return null;
     }
 };
+
+export const updateTask = async (taskId, updatedTask, token) => {
+    try {
+        const response = await axiosInstance.put(
+            `${BASE_URL}/tasks/${taskId}`,
+            updatedTask,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.log('Error:', error);
+        return null;
+    }
+};
+
+export const deleteTask = (taskId, token) => {
+    console.log(token)
+    console.log(taskId)
+    return axios.delete(`${BASE_URL}/tasks/${taskId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
+};
+
+
+
+
+
+
 
 // export const deleteUser = async (userId) => {
 //     try {
@@ -131,42 +175,23 @@ export const createProject = (userId, project) => {
     }
 };
 
-
-
-
-//Task endpoints
-// export const getAllTasks = () => {
-//     return axiosInstance.get(`${BASE_URL}/tasks`);
-// };
-
-// export const createProject = async (project, token) => {
-//     try {
-//         const BASE_URL = 'https://example.com'; // Replace with your base URL
-//
-//         // eslint-disable-next-line react-hooks/rules-of-hooks
-//         const { user } = useContext(AuthContext); // Assuming you have the AuthContext available
-//
-//         project.user = {
-//             userId: user.userId
-//         };
-//         console.log("Projects user id?:", user.userId);
-//
-//         const response = await axiosInstance.post(`${BASE_URL}/projects`, project, {
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 'Authorization': `Bearer ${token}`,
-//             },
-//         });
-//
-//         console.log("Response from server:", response);
-//
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error:', error);
-//         throw error;
-//     }
-// };
-
+export const createTask = (userId, task) => {
+    try {
+        const { taskId, ...rest } = task; // Destructure the projectId from the project object
+        return axiosInstance.post(`${BASE_URL}/tasks`, {
+            ...rest, // Spread the rest of the project properties
+            user: {
+                userId: userId
+            },
+            task: {
+                taskId: taskId // Add the projectId separately
+            }
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+};
 
 
 

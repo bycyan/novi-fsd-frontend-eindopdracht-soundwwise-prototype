@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, contextData }}>
+        <AuthContext.Provider value={{setUser, user, login, logout, contextData }}>
             {/*{children}*/}
             {isAuth.status === 'done' ? children : <p>Loading...</p>}
         </AuthContext.Provider>
