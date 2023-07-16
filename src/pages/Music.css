@@ -1,0 +1,10 @@
+.music-item-img{
+    width: 60px;
+}
+
+.music-item{
+    margin-top: 10px;
+    padding-bottom: 10px;
+    gap: 20px;
+}
+

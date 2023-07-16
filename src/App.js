@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import Tasks from "./pages/Tasks";
+import Nav from "./components/Nav";
+import Music from "./pages/Music";
+import Posts from "./pages/Posts";
+import MusicDetail from "./pages/MusicDetail";
+import "./assests/global.css";
+import UpperNav from "./components/UpperNav";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const location = useLocation();
+    const hideNav = location.pathname.startsWith("/music/") || location.pathname === "/";
+
+
+    return (
+        <>
+            {!hideNav && <UpperNav />}
+            {!hideNav && <Nav />}
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/tasks" element={<Tasks />} />
+                <Route path="/music" element={<Music />} />
+                <Route path="/posts" element={<Posts />} />
+                <Route path="/music/:projectId" element={<MusicDetail />} />
+            </Routes>
+        </>
+    );
 }
 
 export default App;

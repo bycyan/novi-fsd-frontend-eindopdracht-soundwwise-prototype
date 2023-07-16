@@ -1,0 +1,257 @@
+/* reset */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    border: none;
+    margin: 0;
+}
+
+body {
+    background-color: var(--tertiary);
+    color: var(--neutral);
+    font-family: Poppins, sans-serif;
+    padding-bottom: 90px;
+}
+
+html {
+    font-size: 62.5%; /* (62.5/100) * 16px = 10px */
+    -webkit-text-size-adjust: none; /* for iOS Safari */
+    -moz-text-size-adjust: none; /* for other mobile browsers */
+    scroll-behavior: smooth;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+label,
+button,
+select,
+summary,
+[type=radio],
+[type=submit],
+[type=checkbox] {
+    cursor: pointer;
+}
+
+menu,
+ol,
+ul {
+    padding-left: 0;
+}
+
+article ol,
+article ul {
+    list-style-position: inside;
+}
+
+a {
+    /* Places underlines below the descenders */
+    text-underline-position: under;
+    /* Sets the thickness as a percentage of the font size */
+    text-decoration-thickness: 8%;
+    color: var();
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+
+
+/**** framework ****/
+
+.outer-container {
+    max-width: 575px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 7px;
+    padding: 15px;
+    background-color: var(--secondary);
+    border-radius: 2px;
+}
+
+.transparent-container {
+    max-width: 575px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 7px;
+    padding: 15px;
+    background-color: transparent;
+}
+
+/*@media (min-width: 900px) {*/
+/*    .outer-container {*/
+/*        max-width: 575px;*/
+/*    }*/
+/*}*/
+
+.inner-container {
+    width: 100%;
+    /*max-width: 575px;*/
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* styles */
+
+:root {
+    --primary: #1DB954;
+    --secondary: #212121;
+    --tertiary: #121212;
+    --neutral: #E9E9EA;
+    --grey: #B3B3B3;
+
+    --success: #00C48C;
+    --warning: #FFB800;
+    --error: #FF3D00;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h1 {
+    font-size: 3.6rem;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+h3 {
+    font-size: 2.4rem;
+}
+
+h4 {
+    font-size: 2rem;
+}
+
+h5 {
+    font-size: 1.8rem;
+}
+
+h6 {
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/*Button Component*/
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: var(--neutral);
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+}
+
+/*button:hover {*/
+/*    background-color: #45a049;*/
+/*}*/
+
+/*button:active {*/
+/*    background-color: #3e8e41;*/
+/*}*/
+
+/* Mobile first queries */
+
+/* Larger than mobile (default point when grid becomes active) */
+/*@media (min-width: 600px) {*/
+/*}*/
+
+/*!* Larger than phablet *!*/
+/*@media (min-width: 900px) {}*/
+
+/*!* Larger than tablet *!*/
+/*@media (min-width: 1200px) {}*/
+
+.container {
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    height: 100vh;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.auth-container {
+    height: 90vh;
+    max-width: 100vw;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+    }
+}
+
+/*CheckBox*/
+
+.checkbox-container {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 1px solid var(--neutral);
+    display: inline-block;
+}
+
+.checkbox-custom.checked {
+    border: none;
+}
+
+.checkbox-custom.checked img {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+
+.link-to-project{
+    color: var(--neutral);
+}
+
+.link-to-project:hover{
+    color: var(--primary);
+}
