@@ -46,9 +46,8 @@ const AddTask = () => {
 
     return (
         <div>
-            <h1>Add Task</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit} className="form-container">
+                <div className="flex-container task-item">
                     <label htmlFor="taskName">Task Name:</label>
                     <input
                         type="text"

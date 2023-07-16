@@ -81,33 +81,62 @@ export const updateUser = async (userId, updatedUser, token) => {
     }
 };
 
-export const updateTask = async (taskId, updatedTask, token) => {
+// export const updateUser = async (userId, updatedUser, profileImgFile, token) => {
+//     console.log(token);
+//     console.log(updatedUser);
+//     console.log(userId);
+//
+//     try {
+//         const formData = new FormData();
+//         formData.append('profileImg', profileImgFile);
+//         formData.append('user', JSON.stringify(updatedUser));
+//
+//         const response = await axiosInstance.put(`${BASE_URL}/users/${userId}`, formData, {
+//             headers: {
+//                 Authorization: `Bearer ${token}`,
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         });
+//
+//         return response.data;
+//     } catch (error) {
+//         console.log('Error:', error);
+//         return null;
+//     }
+// };
+
+export const deleteTask = async (taskId, token, userId, updatedUser, user) => {
+    console.log("Token: ", token);
+    console.log("Task id: ", taskId);
+    console.log("User id: ", userId);
+    console.log("Updated user data: ", updatedUser); // Log the updated user data
+
     try {
-        const response = await axiosInstance.put(
-            `${BASE_URL}/tasks/${taskId}`,
-            updatedTask,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+        await axios.delete(`${BASE_URL}/tasks/${taskId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
             }
-        );
-        return response.data;
+        });
+
+        const updatedUserWithTasks = {
+            ...updatedUser,
+            tasks: user.tasks.filter((task) => task.taskId !== taskId)
+        };
+
+        await updateUser(userId, updatedUserWithTasks, token);
+        console.log("Updated user data: ", updatedUserWithTasks);
+
+        console.log('Task deleted and user updated successfully.');
     } catch (error) {
-        console.log('Error:', error);
-        return null;
+        console.error('Error:', error);
     }
 };
 
-export const deleteTask = (taskId, token) => {
-    console.log(token)
-    console.log(taskId)
-    return axios.delete(`${BASE_URL}/tasks/${taskId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    });
-};
+
+
+
+
+
 
 
 

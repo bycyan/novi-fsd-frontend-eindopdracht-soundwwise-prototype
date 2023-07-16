@@ -16,10 +16,24 @@ function Tasks() {
     };
 
     const handleTaskComplete = async (taskId) => {
+        console.log("The task that should be removed: ", taskId)
         try {
             const token = localStorage.getItem('authToken');
-            await deleteTask(taskId, token);
-            setIsChecked((prevState) => !prevState);
+            const updatedUser = {
+                // Update the properties with the necessary user data
+                firstName: user.firstName,
+                lastName: user.lastName,
+                jobDescription: user.jobDescription,
+                headerImg: user.headerImg,
+                profileImg: user.profileImg,
+                email: user.email,
+                password: user.password,
+                // tasks: user.tasks.filter((task) => task.taskId !== taskId),
+            };
+
+            await deleteTask(taskId, token, user.userId, updatedUser);
+            // setIsChecked((prevState) => !prevState);
+
 
             setUser((prevUser) => ({
                 ...prevUser,
@@ -30,6 +44,7 @@ function Tasks() {
             // Handle error condition
         }
     };
+
 
     return (
         <div className="container">
@@ -46,6 +61,7 @@ function Tasks() {
                                 </div>
                             </div>
                         </section>
+                        {isFormOpen && <AddTask />} {/* Render the AddTask component */}
 
 
                         {[...user.tasks].reverse().map((task) => (
@@ -53,7 +69,7 @@ function Tasks() {
                                 <section className="outer-container">
                                     <div className="flex-container task-item">
                                         <div>
-                                            <h5>{task.name}</h5>
+                                            <h5>{task.taskName}</h5>
                                             <p>Due date: {task.dueDate}</p>
                                         </div>
                                         <label className="checkbox-container">
@@ -74,8 +90,6 @@ function Tasks() {
                             </div>
                         ))}
                     </div>
-
-                    {isFormOpen && <AddTask />} {/* Render the AddTask component */}
                 </div>
             ) : (
                 <p>Loading user data...</p>

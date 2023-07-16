@@ -10,6 +10,14 @@
     padding: 20px;
 }
 
+.form-container input{
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 .form-group {
     margin-bottom: 20px;
 }

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import {createSong} from '../../services/api';
 import { AuthContext } from '../../context/AuthContext';
 
-const AddSong = ({ projectId }) => {
+const AddSong = ({ projectId, onCancel }) => {
     const [title, setTitle] = useState('');
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
@@ -46,8 +46,14 @@ const AddSong = ({ projectId }) => {
         }
     };
 
+    const handleCancel = () => {
+        onCancel();
+    };
+
     return (
-        <div className="modal overlay">
+        <div className="modal">
+            <div className="transparent-container form-container">
+                <button type="button" onClick={handleCancel}>Cancel</button>
             <h1>Add Song</h1>
             {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit}>
@@ -62,19 +68,19 @@ const AddSong = ({ projectId }) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="mp3File">MP3 File:</label>
-                    <input
-                        type="file"
-                        id="mp3File"
-                        accept=".mp3"
-                        onChange={handleMp3FileChange}
-                        required
-                    />
+                    {/*<label htmlFor="mp3File">MP3 File:</label>*/}
+                    {/*<input*/}
+                    {/*    type="file"*/}
+                    {/*    id="mp3File"*/}
+                    {/*    accept=".mp3"*/}
+                    {/*    onChange={handleMp3FileChange}*/}
+                    {/*/>*/}
                 </div>
                 <button type="submit" disabled={loading}>
                     {loading ? 'Creating...' : 'Create Song'}
                 </button>
             </form>
+            </div>
         </div>
     );
 };

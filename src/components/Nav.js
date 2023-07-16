@@ -90,14 +90,16 @@ function Nav() {
                                         </a>
                                     </div>
                                 </div>
-                                <h6>Settings</h6>
+                                <div onClick={closeMenu} style={{ cursor: "pointer" }}>
+                                    <h6>Close</h6>
+                                </div>
                             </div>
                             <div className="main-menu-items">
-                                <h4>add task</h4>
-                                <h4>
-                                    <a href="/">add music</a>
-                                </h4>
-                                <h4>add post</h4>
+                                {/*<h4>add task</h4>*/}
+                                {/*<h4>*/}
+                                {/*    <a href="/">add music</a>*/}
+                                {/*</h4>*/}
+                                {/*<h4>add post</h4>*/}
                             </div>
                         </div>
                     </div>

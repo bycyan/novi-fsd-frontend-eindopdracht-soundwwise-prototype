@@ -76,6 +76,10 @@ const MusicDetail = () => {
 
     const { projectName, projectArtist } = project;
 
+    const handleCancel = () => {
+        setIsFormOpen(false);
+    };
+
     return (
         <div>
 
@@ -107,18 +111,41 @@ const MusicDetail = () => {
                 </div>
 
                 <section className="transparent-container music-detail-header-section">
-                    <h5>Project Name: {projectName}</h5>
-                    <h6>Artist: {projectArtist}</h6>
+                    <h5>{projectName}</h5>
+                    <h6>{projectArtist}</h6>
                 </section>
             </div>
 
 
             <section className="outer-container">
             <h5>songs</h5>
+
             {songs && songs.length > 0 ? (
                 <ul>
+
+                    <li className= "inner-container flex-container music-detail-item">
+                        <img src="https://f4.bcbits.com/img/a3177371765_65" alt="" />
+                        <div className="info">
+                            <h5>
+                                Mid Saigon
+                            </h5>
+                            <p>
+                                {projectArtist}
+                            </p>
+                        </div>
+                    </li>
                     {songs.map((song) => (
-                        <li key={song.title}>{song.title}</li>
+                    <li key={song.title} className= "inner-container flex-container music-detail-item">
+                        <img src="https://f4.bcbits.com/img/a3177371765_65" alt="" />
+                        <div className="info">
+                        <h5>
+                        {song.title}
+                        </h5>
+                        <p>
+                        {projectArtist}
+                        </p>
+                        </div>
+                    </li>
                     ))}
                 </ul>
             ) : (
@@ -126,7 +153,10 @@ const MusicDetail = () => {
             )}
             </section>
 
-            {isFormOpen && <AddSong projectId={projectId} />}
+            {isFormOpen && <AddSong
+                projectId={projectId}
+                onCancel={handleCancel}
+            />}
 
         </div>
 
